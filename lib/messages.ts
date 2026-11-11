@@ -52,7 +52,6 @@ export type ErrorCode = 'fetch' | 'decode' | 'generic';
 export type PortRequest =
   | { type: 'convert'; job: ConvertJob }
   | { type: 'download-mp4'; mp4Url: string; filename: string }
-  | { type: 'redownload'; filename: string; dataB64: string }
   | { type: 'cancel' };
 
 /** Background -> content script (over the port). */
