@@ -15,6 +15,7 @@ export default defineConfig({
     ],
     host_permissions: ['https://video.twimg.com/*', 'https://cdn.syndication.twimg.com/*'],
     action: { default_title: '__MSG_extName__' },
+    ...(browser === 'firefox' ? {} : { minimum_chrome_version: '116' }),
     browser_specific_settings:
       browser === 'firefox'
         ? {
