@@ -1,0 +1,143 @@
+{
+  "extName": {
+    "message": "gifzor"
+  },
+  "extDescription": {
+    "message": "Save animated GIFs from X as real .gif files – converted locally in your browser."
+  },
+  "btnTitle": {
+    "message": "Save as GIF"
+  },
+  "popTitle": {
+    "message": "Save as GIF"
+  },
+  "labelMedia": {
+    "message": "Media"
+  },
+  "labelWidth": {
+    "message": "Width"
+  },
+  "labelFps": {
+    "message": "Frame rate"
+  },
+  "labelFilename": {
+    "message": "File name"
+  },
+  "labelClipboard": {
+    "message": "Also copy to clipboard"
+  },
+  "optOriginal": {
+    "message": "Original"
+  },
+  "actionConvert": {
+    "message": "Convert"
+  },
+  "actionMp4": {
+    "message": "Save MP4"
+  },
+  "actionRedownload": {
+    "message": "Download again"
+  },
+  "actionCancel": {
+    "message": "Cancel"
+  },
+  "actionClose": {
+    "message": "Close"
+  },
+  "stageFetch": {
+    "message": "Loading… $1 %"
+  },
+  "stageDecode": {
+    "message": "Decoding $1 %"
+  },
+  "stageEncode": {
+    "message": "Encoding $1 %"
+  },
+  "stageFit": {
+    "message": "Shrinking (attempt $1)… $2 %"
+  },
+  "stageDone": {
+    "message": "Saved"
+  },
+  "stageError": {
+    "message": "Error"
+  },
+  "resultInfo": {
+    "message": "$1 · $2 px wide · $3 fps · $4 colors"
+  },
+  "warnOverLimit": {
+    "message": "Could not get below $1 MB – saved anyway."
+  },
+  "toastCopied": {
+    "message": "GIF copied to clipboard."
+  },
+  "toastCopiedLink": {
+    "message": "Your browser can't copy animated GIFs – the MP4 link was copied instead."
+  },
+  "toastCopyFailed": {
+    "message": "Copying to the clipboard failed."
+  },
+  "errNoMedia": {
+    "message": "No GIF found in this post."
+  },
+  "errFetch": {
+    "message": "Could not load the video ($1)."
+  },
+  "errDecode": {
+    "message": "This video could not be decoded."
+  },
+  "errGeneric": {
+    "message": "Conversion failed: $1"
+  },
+  "errDisconnected": {
+    "message": "Connection to the extension was lost. Please reload the page."
+  },
+  "optionsTitle": {
+    "message": "gifzor – Settings"
+  },
+  "optionsDefaults": {
+    "message": "Default quality"
+  },
+  "optionsColors": {
+    "message": "Colors"
+  },
+  "optionsSize": {
+    "message": "File size"
+  },
+  "optionsMaxSize": {
+    "message": "Maximum file size (MB, 0 = unlimited)"
+  },
+  "optionsMaxSizeHint": {
+    "message": "Discord allows 10 MB without Nitro."
+  },
+  "optionsAutoFit": {
+    "message": "Automatically reduce frame rate/resolution if the file is too large"
+  },
+  "optionsMaxDuration": {
+    "message": "Maximum clip length in seconds (0 = unlimited)"
+  },
+  "optionsOutput": {
+    "message": "Output"
+  },
+  "optionsPattern": {
+    "message": "File name pattern"
+  },
+  "optionsPatternHint": {
+    "message": "Placeholders: {user}, {id}, {date}, {n} (number of the GIF in the post)"
+  },
+  "optionsClipboard": {
+    "message": "Copy to clipboard by default"
+  },
+  "optionsSaved": {
+    "message": "Saved"
+  },
+  "optionsReset": {
+    "message": "Reset to defaults"
+  },
+  "optionsPrivacy": {
+    "message": "Privacy: Everything is converted locally in your browser. The extension only contacts video.twimg.com (the video file) and cdn.syndication.twimg.com (looking up the video URL if needed). No data is sent to third parties."
+  },
+  "optionsTip": {
+    "message": "Tip: Shift+click the GIF button to convert immediately with these defaults."
+  }
+}

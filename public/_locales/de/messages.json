@@ -1,0 +1,143 @@
+{
+  "extName": {
+    "message": "gifzor"
+  },
+  "extDescription": {
+    "message": "Speichert animierte GIFs von X als echte .gif-Dateien – lokal im Browser konvertiert."
+  },
+  "btnTitle": {
+    "message": "Als GIF speichern"
+  },
+  "popTitle": {
+    "message": "Als GIF speichern"
+  },
+  "labelMedia": {
+    "message": "Medium"
+  },
+  "labelWidth": {
+    "message": "Breite"
+  },
+  "labelFps": {
+    "message": "Bildrate"
+  },
+  "labelFilename": {
+    "message": "Dateiname"
+  },
+  "labelClipboard": {
+    "message": "Auch in Zwischenablage kopieren"
+  },
+  "optOriginal": {
+    "message": "Original"
+  },
+  "actionConvert": {
+    "message": "Konvertieren"
+  },
+  "actionMp4": {
+    "message": "MP4 speichern"
+  },
+  "actionRedownload": {
+    "message": "Erneut herunterladen"
+  },
+  "actionCancel": {
+    "message": "Abbrechen"
+  },
+  "actionClose": {
+    "message": "Schließen"
+  },
+  "stageFetch": {
+    "message": "Lade… $1 %"
+  },
+  "stageDecode": {
+    "message": "Dekodiere $1 %"
+  },
+  "stageEncode": {
+    "message": "Kodiere $1 %"
+  },
+  "stageFit": {
+    "message": "Verkleinere (Versuch $1)… $2 %"
+  },
+  "stageDone": {
+    "message": "Gespeichert"
+  },
+  "stageError": {
+    "message": "Fehler"
+  },
+  "resultInfo": {
+    "message": "$1 · $2 px breit · $3 fps · $4 Farben"
+  },
+  "warnOverLimit": {
+    "message": "Konnte nicht unter $1 MB gebracht werden – trotzdem gespeichert."
+  },
+  "toastCopied": {
+    "message": "GIF in die Zwischenablage kopiert."
+  },
+  "toastCopiedLink": {
+    "message": "Dein Browser kann keine animierten GIFs kopieren – stattdessen wurde der MP4-Link kopiert."
+  },
+  "toastCopyFailed": {
+    "message": "Kopieren in die Zwischenablage fehlgeschlagen."
+  },
+  "errNoMedia": {
+    "message": "In diesem Post wurde kein GIF gefunden."
+  },
+  "errFetch": {
+    "message": "Video konnte nicht geladen werden ($1)."
+  },
+  "errDecode": {
+    "message": "Dieses Video konnte nicht dekodiert werden."
+  },
+  "errGeneric": {
+    "message": "Konvertierung fehlgeschlagen: $1"
+  },
+  "errDisconnected": {
+    "message": "Verbindung zur Erweiterung verloren. Bitte Seite neu laden."
+  },
+  "optionsTitle": {
+    "message": "gifzor – Einstellungen"
+  },
+  "optionsDefaults": {
+    "message": "Standard-Qualität"
+  },
+  "optionsColors": {
+    "message": "Farben"
+  },
+  "optionsSize": {
+    "message": "Dateigröße"
+  },
+  "optionsMaxSize": {
+    "message": "Maximale Dateigröße (MB, 0 = unbegrenzt)"
+  },
+  "optionsMaxSizeHint": {
+    "message": "Discord erlaubt ohne Nitro 10 MB."
+  },
+  "optionsAutoFit": {
+    "message": "Bildrate/Auflösung automatisch reduzieren, wenn die Datei zu groß ist"
+  },
+  "optionsMaxDuration": {
+    "message": "Maximale Cliplänge in Sekunden (0 = unbegrenzt)"
+  },
+  "optionsOutput": {
+    "message": "Ausgabe"
+  },
+  "optionsPattern": {
+    "message": "Dateinamen-Muster"
+  },
+  "optionsPatternHint": {
+    "message": "Platzhalter: {user}, {id}, {date}, {n} (Nummer des GIFs im Post)"
+  },
+  "optionsClipboard": {
+    "message": "Standardmäßig in die Zwischenablage kopieren"
+  },
+  "optionsSaved": {
+    "message": "Gespeichert"
+  },
+  "optionsReset": {
+    "message": "Auf Standard zurücksetzen"
+  },
+  "optionsPrivacy": {
+    "message": "Datenschutz: Alles wird lokal in deinem Browser konvertiert. Die Erweiterung kontaktiert nur video.twimg.com (die Videodatei) und cdn.syndication.twimg.com (ggf. zum Ermitteln der Video-URL). Es werden keine Daten an Dritte übertragen."
+  },
+  "optionsTip": {
+    "message": "Tipp: Shift+Klick auf den GIF-Button konvertiert sofort mit diesen Standardwerten."
+  }
+}

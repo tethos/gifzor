@@ -1,0 +1,32 @@
+{
+  "name": "gifzor",
+  "description": "Save animated GIFs from X (Twitter) as real .gif files – converted locally in your browser.",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "author": "tethos",
+  "scripts": {
+    "dev": "wxt",
+    "dev:firefox": "wxt -b firefox",
+    "build": "wxt build",
+    "build:firefox": "wxt build -b firefox",
+    "zip": "wxt zip",
+    "zip:firefox": "wxt zip -b firefox",
+    "compile": "tsc --noEmit",
+    "test": "vitest run",
+    "lint:firefox": "wxt build -b firefox && web-ext lint -s .output/firefox-mv3",
+    "postinstall": "wxt prepare"
+  },
+  "dependencies": {
+    "gifenc": "^1.0.3",
+    "mp4box": "^2.5.0"
+  },
+  "devDependencies": {
+    "happy-dom": "^21.0.4",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0",
+    "web-ext": "^10.8.0",
+    "wxt": "^0.21.5"
+  }
+}
