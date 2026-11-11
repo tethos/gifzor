@@ -4,6 +4,7 @@ import { t } from '@/lib/i18n';
 import type { ResolveMp4Response, RuntimeRequest } from '@/lib/messages';
 import { getSettings, type Settings } from '@/lib/settings';
 import { findGifMedia, type GifMedia, type TweetInfo } from '@/lib/tweet';
+import { copyGif } from './clipboard';
 import { ConversionJob, errorText, type JobState } from './job';
 import { toast } from './ui/toast';
 
@@ -80,8 +81,13 @@ export class TweetController {
     return state;
   }
 
-  /** Hook for post-processing (clipboard); extended in clipboard support. */
-  protected async afterDone(_state: Extract<JobState, { kind: 'done' }>, _clipboard: boolean, _mp4Url: string) {}
+  private async afterDone(state: Extract<JobState, { kind: 'done' }>, clipboard: boolean, mp4Url: string) {
+    if (!clipboard) return;
+    const outcome = await copyGif(state.gif, mp4Url);
+    if (outcome === 'gif') toast(t('toastCopied'));
+    else if (outcome === 'link') toast(t('toastCopiedLink'), 'info', 6000);
+    else toast(t('toastCopyFailed'), 'warn');
+  }
 
   async downloadMp4(index: number, filename: string): Promise<void> {
     try {
