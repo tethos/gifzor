@@ -1,0 +1,35 @@
+{
+  "__typename": "Tweet",
+  "id_str": "1234567890123456789",
+  "user": { "screen_name": "example" },
+  "mediaDetails": [
+    {
+      "type": "photo",
+      "media_url_https": "https://pbs.twimg.com/media/XYZ.jpg"
+    },
+    {
+      "type": "animated_gif",
+      "media_url_https": "https://pbs.twimg.com/tweet_video_thumb/AbC-123_x.jpg",
+      "video_info": {
+        "aspect_ratio": [16, 9],
+        "variants": [
+          { "bitrate": 0, "content_type": "video/mp4", "url": "https://video.twimg.com/tweet_video/AbC-123_x.mp4" }
+        ]
+      }
+    }
+  ],
+  "quoted_tweet": {
+    "mediaDetails": [
+      {
+        "type": "animated_gif",
+        "video_info": {
+          "variants": [
+            { "content_type": "application/x-mpegURL", "url": "https://video.twimg.com/q.m3u8" },
+            { "bitrate": 100, "content_type": "video/mp4", "url": "https://video.twimg.com/tweet_video/low.mp4" },
+            { "bitrate": 900, "content_type": "video/mp4", "url": "https://video.twimg.com/tweet_video/high.mp4" }
+          ]
+        }
+      }
+    ]
+  }
+}

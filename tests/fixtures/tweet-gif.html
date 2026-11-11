@@ -1,0 +1,34 @@
+<!-- Simplified markup of GIF tweets on x.com (relevant attributes only). Update when X changes its DOM. -->
+<article data-testid="tweet" role="article">
+  <div>
+    <a href="/example"><span>Example</span></a>
+    <a href="/example/status/1234567890123456789"><time datetime="2026-01-01T12:00:00.000Z">Jan 1</time></a>
+  </div>
+  <div data-testid="tweetText">hello</div>
+  <div data-testid="videoPlayer">
+    <video
+      preload="none"
+      playsinline
+      aria-label="Embedded video"
+      poster="https://pbs.twimg.com/tweet_video_thumb/AbC-123_x.jpg"
+      src="https://video.twimg.com/tweet_video/AbC-123_x.mp4"
+      type="video/mp4"
+    ></video>
+    <div><span>GIF</span></div>
+  </div>
+  <div role="link" tabindex="0">
+    <!-- quoted tweet with its own GIF (not playing yet → only an <img> poster) -->
+    <img src="https://pbs.twimg.com/tweet_video_thumb/QuOtEd.jpg" alt="Embedded video" />
+  </div>
+  <div role="group" aria-label="12 replies, 3 reposts, 40 likes">
+    <div><button data-testid="reply"><svg></svg></button></div>
+    <div><button data-testid="like"><svg></svg></button></div>
+  </div>
+</article>
+<article data-testid="tweet" role="article">
+  <a href="/other/status/42"><time>now</time></a>
+  <div data-testid="videoPlayer">
+    <video poster="https://pbs.twimg.com/ext_tw_video_thumb/1/pu/img/x.jpg" src="blob:https://x.com/abc"></video>
+  </div>
+  <div role="group"></div>
+</article>

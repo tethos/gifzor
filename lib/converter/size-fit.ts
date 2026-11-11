@@ -39,7 +39,13 @@ export function nextAttempt(prev: Attempt, actualBytes: number, targetBytes: num
     need /= (width / prev.width) ** 2;
   }
 
-  // 3) Colors: only when resolution is exhausted.
+  // 3) Resolution exhausted: drop to the minimum frame rate.
+  if (need < 0.98 && width === MIN_WIDTH && fps > MIN_FPS) {
+    need /= MIN_FPS / fps;
+    fps = MIN_FPS;
+  }
+
+  // 4) Colors: last resort.
   let colors = prev.colors;
   if (need < 0.98 && colors > MIN_COLORS) {
     colors = Math.max(MIN_COLORS, colors / 2);
