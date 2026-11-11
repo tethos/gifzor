@@ -20,9 +20,10 @@ export default defineConfig({
         ? {
             gecko: {
               id: 'gifzor@tethos',
-              strict_min_version: '130.0',
+              strict_min_version: '140.0',
               data_collection_permissions: { required: ['none'] },
             },
+            gecko_android: { strict_min_version: '142.0' },
           }
         : undefined,
   }),

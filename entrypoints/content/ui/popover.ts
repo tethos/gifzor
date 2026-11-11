@@ -3,6 +3,7 @@ import { t } from '@/lib/i18n';
 import { FPS_CHOICES, WIDTH_CHOICES, type Settings } from '@/lib/settings';
 import type { TweetController } from '../controller';
 import { errorText, type JobState } from '../job';
+import { h, s, styleEl } from './dom';
 import { POPOVER_CSS } from './styles';
 import { themeClass } from './theme';
 
@@ -15,10 +16,6 @@ export function closePopover() {
 function formatBytes(n: number): string {
   if (n < 1024 * 1024) return `${(n / 1024).toFixed(0)} KB`;
   return `${(n / 1024 / 1024).toFixed(2)} MB`;
-}
-
-function esc(s: string): string {
-  return s.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 }
 
 /** Download a blob from the page (used for "download again" – no extension round trip needed). */
@@ -50,47 +47,78 @@ export function openPopover(anchor: HTMLElement, ctrl: TweetController, settings
   const host = document.createElement('gifzor-popover');
   host.dataset.tweet = ctrl.info.id;
   const root = host.attachShadow({ mode: 'open' });
-  const widthBtns = WIDTH_CHOICES.map(
-    (w) => `<button type="button" data-width="${w}">${w === 0 ? esc(t('optOriginal')) : `${w}px`}</button>`,
-  ).join('');
-  const fpsBtns = FPS_CHOICES.map((f) => `<button type="button" data-fps="${f}">${f} fps</button>`).join('');
-  const mediaBtns = Array.from({ length: mediaCount }, (_, i) => `<button type="button" data-media="${i}">${i + 1}</button>`).join('');
   const maxHint = settings.maxSizeMB > 0 ? `max. ${settings.maxSizeMB} MB${settings.autoFit ? ' · auto' : ''}` : '';
+  const seg = (cls: string, buttons: HTMLElement[]) => h('div', { class: `seg ${cls}` }, ...buttons);
+  const row = (label: string, content: HTMLElement, hidden = false) =>
+    h('div', { class: hidden ? 'row hidden' : 'row' }, h('span', { class: 'label' }, label), content);
 
-  root.innerHTML = `
-  <style>${POPOVER_CSS}</style>
-  <div class="panel ${themeClass()}" role="dialog" aria-label="${esc(t('popTitle'))}">
-    <header><h2>${esc(t('popTitle'))}</h2>
-      <button class="close" type="button" aria-label="${esc(t('actionClose'))}">
-        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></svg>
-      </button></header>
-    <div class="row ${mediaCount > 1 ? '' : 'hidden'}"><span class="label">${esc(t('labelMedia'))}</span><div class="seg media">${mediaBtns}</div></div>
-    <div class="row"><span class="label">${esc(t('labelWidth'))}</span><div class="seg width">${widthBtns}</div></div>
-    <div class="row"><span class="label">${esc(t('labelFps'))}</span><div class="seg fps">${fpsBtns}</div></div>
-    <div class="row"><label class="label" for="gz-name">${esc(t('labelFilename'))}</label>
-      <div class="name"><input id="gz-name" type="text" spellcheck="false" autocomplete="off"><span>.gif</span></div></div>
-    <label class="check row"><input type="checkbox" class="clip"> ${esc(t('labelClipboard'))}</label>
-    <div class="actions">
-      <button type="button" class="btn primary convert">${esc(t('actionConvert'))}</button>
-      <button type="button" class="btn mp4">${esc(t('actionMp4'))}</button>
-    </div>
-    <div class="hint">${esc(maxHint)}</div>
-    <div class="status hidden"><span class="text"></span><div class="bar"><div></div></div></div>
-    <div class="preview hidden"><img alt=""><div class="info"></div><div class="warn hidden"></div>
-      <div class="actions"><button type="button" class="btn again">${esc(t('actionRedownload'))}</button></div></div>
-  </div>`;
+  const nameInput = h('input', { id: 'gz-name', type: 'text', spellcheck: 'false', autocomplete: 'off' });
+  const clip = h('input', { type: 'checkbox', class: 'clip' });
+  const closeBtn = h(
+    'button',
+    { class: 'close', type: 'button', 'aria-label': t('actionClose') },
+    s(
+      'svg',
+      { width: 18, height: 18, viewBox: '0 0 24 24', 'aria-hidden': 'true' },
+      s('path', {
+        fill: 'none',
+        stroke: 'currentColor',
+        'stroke-width': 2,
+        'stroke-linecap': 'round',
+        d: 'M6 6l12 12M18 6 6 18',
+      }),
+    ),
+  );
+  const convertBtn = h('button', { type: 'button', class: 'btn primary convert' }, t('actionConvert'));
+  const mp4Btn = h('button', { type: 'button', class: 'btn mp4' }, t('actionMp4'));
+  const statusText = h('span', { class: 'text' });
+  const statusBar = h('div');
+  const status = h('div', { class: 'status hidden' }, statusText, h('div', { class: 'bar' }, statusBar));
+  const img = h('img', { alt: '' });
+  const info = h('div', { class: 'info' });
+  const warn = h('div', { class: 'warn hidden' });
+  const againBtn = h('button', { type: 'button', class: 'btn again' }, t('actionRedownload'));
+  const preview = h('div', { class: 'preview hidden' }, img, info, warn, h('div', { class: 'actions' }, againBtn));
 
-  const $ = <T extends Element>(sel: string) => root.querySelector<T>(sel)!;
-  const nameInput = $<HTMLInputElement>('#gz-name');
-  const clip = $<HTMLInputElement>('.clip');
-  const convertBtn = $<HTMLButtonElement>('.convert');
-  const status = $<HTMLElement>('.status');
-  const statusText = $<HTMLElement>('.status .text');
-  const statusBar = $<HTMLElement>('.status .bar > div');
-  const preview = $<HTMLElement>('.preview');
-  const img = $<HTMLImageElement>('.preview img');
-  const info = $<HTMLElement>('.preview .info');
-  const warn = $<HTMLElement>('.preview .warn');
+  const panel = h(
+    'div',
+    { class: `panel ${themeClass()}`, role: 'dialog', 'aria-label': t('popTitle') },
+    h('header', {}, h('h2', {}, t('popTitle')), closeBtn),
+    row(
+      t('labelMedia'),
+      seg(
+        'media',
+        Array.from({ length: mediaCount }, (_, i) => h('button', { type: 'button', 'data-media': i }, i + 1)),
+      ),
+      mediaCount < 2,
+    ),
+    row(
+      t('labelWidth'),
+      seg(
+        'width',
+        WIDTH_CHOICES.map((w) => h('button', { type: 'button', 'data-width': w }, w === 0 ? t('optOriginal') : `${w}px`)),
+      ),
+    ),
+    row(
+      t('labelFps'),
+      seg(
+        'fps',
+        FPS_CHOICES.map((f) => h('button', { type: 'button', 'data-fps': f }, `${f} fps`)),
+      ),
+    ),
+    h(
+      'div',
+      { class: 'row' },
+      h('label', { class: 'label', for: 'gz-name' }, t('labelFilename')),
+      h('div', { class: 'name' }, nameInput, h('span', {}, '.gif')),
+    ),
+    h('label', { class: 'check row' }, clip, ` ${t('labelClipboard')}`),
+    h('div', { class: 'actions' }, convertBtn, mp4Btn),
+    h('div', { class: 'hint' }, maxHint),
+    status,
+    preview,
+  );
+  root.append(styleEl(POPOVER_CSS), panel);
   let previewUrl: string | null = null;
 
   nameInput.value = ctrl.defaultBaseName(0, settings);
@@ -137,8 +165,8 @@ export function openPopover(anchor: HTMLElement, ctrl: TweetController, settings
   });
   nameInput.addEventListener('keyup', (e) => e.stopPropagation());
   nameInput.addEventListener('keypress', (e) => e.stopPropagation());
-  $<HTMLButtonElement>('.mp4').addEventListener('click', () => void ctrl.downloadMp4(st.index, filename()));
-  $<HTMLButtonElement>('.again').addEventListener('click', () => {
+  mp4Btn.addEventListener('click', () => void ctrl.downloadMp4(st.index, filename()));
+  againBtn.addEventListener('click', () => {
     const s = ctrl.job.state;
     if (s.kind === 'done' && s.gif) saveBlob(s.gif, s.filename);
   });
@@ -164,7 +192,7 @@ export function openPopover(anchor: HTMLElement, ctrl: TweetController, settings
       info.textContent = `${t('stageDone')} · ${t('resultInfo', formatBytes(s.result.bytes), s.result.width, s.result.fps, s.result.colors)}`;
       warn.classList.toggle('hidden', !s.result.overLimit);
       warn.textContent = s.result.overLimit ? t('warnOverLimit', settings.maxSizeMB) : '';
-      $<HTMLButtonElement>('.again').disabled = !s.gif;
+      againBtn.disabled = !s.gif;
     }
   };
   const unsubscribe = ctrl.job.subscribe(render);
@@ -204,6 +232,6 @@ export function openPopover(anchor: HTMLElement, ctrl: TweetController, settings
     if (open?.host === host) open = null;
   }
 
-  root.querySelector('.close')!.addEventListener('click', close);
+  closeBtn.addEventListener('click', close);
   open = { host, close };
 }

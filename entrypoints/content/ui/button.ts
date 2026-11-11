@@ -1,13 +1,10 @@
 import { t } from '@/lib/i18n';
 import type { JobState } from '../job';
+import { h, s, styleEl } from './dom';
 import { BUTTON_CSS } from './styles';
 
 const R = 8;
 const CIRC = 2 * Math.PI * R;
-
-const ICON = `
-<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14"/></svg>
-<svg class="ring" viewBox="0 0 20 20" aria-hidden="true"><circle class="track" cx="10" cy="10" r="${R}"/><circle class="bar" cx="10" cy="10" r="${R}" stroke-dasharray="${CIRC}" stroke-dashoffset="${CIRC}"/></svg>`;
 
 export interface GifButton {
   host: HTMLElement;
@@ -18,14 +15,38 @@ export interface GifButton {
 export function createGifButton(color: string, onClick: (e: MouseEvent) => void): GifButton {
   const host = document.createElement('gifzor-button');
   host.dataset.state = 'idle';
-  const root = host.attachShadow({ mode: 'open' });
-  root.innerHTML = `<style>${BUTTON_CSS}</style><button type="button">${ICON}<span class="pct">GIF</span></button>`;
   host.style.setProperty('--gz-color', color);
-  const button = root.querySelector('button')!;
-  const pct = root.querySelector<HTMLElement>('.pct')!;
-  const bar = root.querySelector<SVGCircleElement>('.bar')!;
-  button.title = t('btnTitle');
-  button.setAttribute('aria-label', t('btnTitle'));
+  const root = host.attachShadow({ mode: 'open' });
+
+  const icon = s(
+    'svg',
+    { class: 'icon', viewBox: '0 0 24 24', 'aria-hidden': 'true' },
+    s('path', {
+      fill: 'none',
+      stroke: 'currentColor',
+      'stroke-width': 2,
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      d: 'M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14',
+    }),
+  );
+  const bar = s('circle', {
+    class: 'bar',
+    cx: 10,
+    cy: 10,
+    r: R,
+    'stroke-dasharray': CIRC,
+    'stroke-dashoffset': CIRC,
+  });
+  const ring = s(
+    'svg',
+    { class: 'ring', viewBox: '0 0 20 20', 'aria-hidden': 'true' },
+    s('circle', { class: 'track', cx: 10, cy: 10, r: R }),
+    bar,
+  );
+  const pct = h('span', { class: 'pct' }, 'GIF');
+  const button = h('button', { type: 'button', title: t('btnTitle'), 'aria-label': t('btnTitle') }, icon, ring, pct);
+  root.append(styleEl(BUTTON_CSS), button);
 
   const stop = (e: Event) => {
     // Keep X from opening the tweet when clicking our button.
@@ -52,16 +73,20 @@ export function createGifButton(color: string, onClick: (e: MouseEvent) => void)
         bar.style.strokeDashoffset = String(CIRC * (1 - p / 100));
         pct.textContent = `${Math.round(p)}%`;
         button.title = state.label;
-      } else {
-        pct.textContent = 'GIF';
-        button.title =
-          state.kind === 'done' ? t('stageDone') : state.kind === 'error' ? `${t('stageError')}: ${state.message}` : t('btnTitle');
-        if (state.kind === 'done' || state.kind === 'error') {
-          resetTimer = setTimeout(() => {
-            host.dataset.state = 'idle';
-            button.title = t('btnTitle');
-          }, 6000);
-        }
+        return;
+      }
+      pct.textContent = 'GIF';
+      button.title =
+        state.kind === 'done'
+          ? t('stageDone')
+          : state.kind === 'error'
+            ? `${t('stageError')}: ${state.message}`
+            : t('btnTitle');
+      if (state.kind === 'done' || state.kind === 'error') {
+        resetTimer = setTimeout(() => {
+          host.dataset.state = 'idle';
+          button.title = t('btnTitle');
+        }, 6000);
       }
     },
   };
