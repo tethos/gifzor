@@ -34,6 +34,15 @@ export default defineBackground(() => {
       );
       return true; // async response
     }
+    if (msg?.type === 'download-mp4') {
+      browser.downloads
+        .download({ url: msg.mp4Url, filename: msg.filename, conflictAction: 'uniquify' })
+        .then(
+          () => sendResponse({ ok: true }),
+          (e: Error) => sendResponse({ ok: false, error: e.message }),
+        );
+      return true;
+    }
     if (msg?.type === 'open-options') {
       browser.runtime.openOptionsPage();
     }
@@ -57,14 +66,6 @@ export default defineBackground(() => {
       const msg = raw as PortRequest;
       if (msg.type === 'cancel') {
         handle?.cancel();
-        return;
-      }
-      if (msg.type === 'download-mp4') {
-        try {
-          await browser.downloads.download({ url: msg.mp4Url, filename: msg.filename, conflictAction: 'uniquify' });
-        } catch (e) {
-          post({ type: 'error', code: 'generic', message: (e as Error).message });
-        }
         return;
       }
       if (msg.type !== 'convert') return;

@@ -51,7 +51,6 @@ export type ErrorCode = 'fetch' | 'decode' | 'generic';
 /** Content script -> background (over the port). */
 export type PortRequest =
   | { type: 'convert'; job: ConvertJob }
-  | { type: 'download-mp4'; mp4Url: string; filename: string }
   | { type: 'cancel' };
 
 /** Background -> content script (over the port). */
@@ -61,7 +60,15 @@ export type PortResponse =
   | { type: 'error'; code: ErrorCode; message: string };
 
 /** Content script -> background (one-off). */
-export type RuntimeRequest = { type: 'resolve-mp4'; tweetId: string } | { type: 'open-options' };
+export type RuntimeRequest =
+  | { type: 'resolve-mp4'; tweetId: string }
+  | { type: 'download-mp4'; mp4Url: string; filename: string }
+  | { type: 'open-options' };
+
+export interface ResolveMp4Response {
+  urls: string[];
+  error?: string;
+}
 
 /** Background <-> offscreen document (runtime messages, Chrome only). */
 export type OffscreenMessage =
