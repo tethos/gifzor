@@ -6,3 +6,4 @@ node_modules/
 .DS_Store
 web-ext-artifacts/
 
+.e2e/

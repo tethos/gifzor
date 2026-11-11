@@ -16,7 +16,8 @@
     "compile": "tsc --noEmit",
     "test": "vitest run",
     "lint:firefox": "wxt build -b firefox && web-ext lint -s .output/firefox-mv3",
-    "postinstall": "wxt prepare"
+    "postinstall": "wxt prepare",
+    "e2e": "wxt build && node scripts/e2e-chrome.mjs"
   },
   "dependencies": {
     "gifenc": "^1.0.3",
