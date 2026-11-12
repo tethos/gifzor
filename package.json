@@ -1,7 +1,7 @@
 {
   "name": "gifzor",
   "description": "Save animated GIFs from X (Twitter) as real .gif files – converted locally in your browser.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "type": "module",
   "license": "MIT",
