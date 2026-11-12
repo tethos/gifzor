@@ -3,6 +3,10 @@ import { defineConfig } from 'wxt';
 // https://wxt.dev/api/config.html
 export default defineConfig({
   manifestVersion: 3,
+  zip: {
+    // Sources ZIP for AMO: keep README.md, leave out local notes (any other root *.md).
+    excludeSources: ['[!R]*.md'],
+  },
   manifest: ({ browser }) => ({
     name: '__MSG_extName__',
     description: '__MSG_extDescription__',
